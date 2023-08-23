@@ -2,7 +2,7 @@ import ChatMessageInput from './ChatMessageInput';
 
 type Props = {
   disabled: boolean;
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string) => void; // eslint-disable-line no-unused-vars
 };
 
 export default function Footer({ disabled, onSendMessage }: Props) {
