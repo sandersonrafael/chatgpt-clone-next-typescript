@@ -25,6 +25,10 @@ export default function ChatMessageInput({ disabled, onSend }: Props) {
     }
   };
 
+  const handleTextKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.code.toLowerCase() === 'enter' && !e.shiftKey) e.preventDefault();
+  };
+
   const handleTextKeyUp: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.code.toLowerCase() === 'enter' && !e.shiftKey) {
       e.preventDefault();
@@ -46,7 +50,8 @@ export default function ChatMessageInput({ disabled, onSend }: Props) {
         placeholder="Digite uma mensagem"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        onKeyDown={handleTextKeyUp}
+        onKeyDown={handleTextKeyDown}
+        onKeyUp={handleTextKeyUp}
         disabled={disabled}
       ></textarea>
 
