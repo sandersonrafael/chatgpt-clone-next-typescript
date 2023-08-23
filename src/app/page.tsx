@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { Chat } from '@/types/Chat';
+import SideBarChatButton from '@/components/SideBarChatButton';
 
 export default function Page() {
   const [sidebarOpened, setSidebarOpened] = useState(false);
@@ -55,6 +56,31 @@ export default function Page() {
     closeSidebar();
   };
 
+  const handleSelectChat = (id: string) => {
+    if (AILoading) return;
+
+    const item = chatList.find(item => item.id === id);
+    if (item) setChatActiveId(item.id);
+    closeSidebar();
+  };
+
+  const handleDeleteChat = (id: string) => {
+    const chatListClone = [...chatList];
+    const chatIndex = chatListClone.findIndex(item => item.id === id);
+    chatListClone.splice(chatIndex, 1);
+    setChatList(chatListClone);
+    setChatActiveId('');
+  };
+
+  const handleEditChat = (id: string, newTitle: string) => {
+    if (newTitle) {
+      const chatListClone = [...chatList];
+      const chatIndex = chatListClone.findIndex(item => item.id === id);
+      chatListClone[chatIndex].title = newTitle;
+      setChatList(chatListClone);
+    }
+  };
+
   const handleSendMessage = (message: string) => {
     if (!chatActiveId) {
       const newChatId = uuidv4();
@@ -87,13 +113,22 @@ export default function Page() {
         onClear={handleClearChats}
         onNewChat={handleNewChat}
       >
-        ...
+        {chatList.map((item) => (
+          <SideBarChatButton
+            key={item.id}
+            chatItem={item}
+            active={item.id === chatActiveId}
+            onClick={handleSelectChat}
+            onDelete={handleDeleteChat}
+            onEdit={handleEditChat}
+          />
+        ))}
       </Sidebar>
 
       <section className="flex flex-col w-full">
         <Header
           openSidebarClick={openSidebar}
-          title={'Nome do chat'}
+          title={chatActive ? chatActive.title : 'Nova conversa'}
           newChatClick={handleNewChat}
         />
 
