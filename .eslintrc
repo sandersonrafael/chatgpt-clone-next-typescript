@@ -19,6 +19,7 @@
     "eol-last": "error",
     "max-len": ["error", 99],
     "key-spacing": ["error", { "afterColon": true }],
-    "comma-spacing": ["error", { "after": true }]
+    "comma-spacing": ["error", { "after": true }],
+    "react/no-unescaped-entities": "off"
   }
 }
